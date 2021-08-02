@@ -221,53 +221,6 @@ async def clear(ctx):
   db["scrim"] = information
   await ctx.send("Schedule cleared")
 
-@client.command()
-async def database(ctx):
-  if ctx.author.id == 712909465011224687:
-    log_channel = db["log_channel"]
-    scrim = db["scrim"]
-    await ctx.send(scrim)
-    await ctx.send(log_channel)
-  else:
-    ctx.send("This is a developer command")
-
-@client.command()
-async def forcescrimlog(ctx, channel:discord.TextChannel):
-  if ctx.author.id == 712909465011224687:
-    db["log_channel"] = channel.id
-    await ctx.send(f'Scrim logs will be sent to <#{channel.id}>')
-  else:
-    await ctx.send("This is developer command")
-
-@client.command()
-@commands.guild_only()
-async def forceclear(ctx):
-  if ctx.author.id == 712909465011224687:
-    information = db["scrim"]
-    information["clan"].clear()
-    information["unix"].clear()
-    information["mode"].clear()
-    db["scrim"] = information
-    await ctx.send("Schedule cleared")
-  else:
-    await ctx.send("This is developer command")
-
-@client.command()
-@commands.guild_only()
-async def forceremove(ctx, iden: int):
-  if ctx.author.id == 712909465011224687:
-    stuff = db["scrim"]
-    try:
-      del stuff["clan"][iden-1]
-      del stuff["unix"][iden-1]
-      del stuff["mode"][iden-1]
-      db["scrim"] = stuff
-      await ctx.send(f'Entry {iden} removed')
-    except Exception:
-      await ctx.send("Provided ID is either too less or too big")
-  else:
-    await ctx.send("This is developer command")
-
 @client.event
 async def on_command_error(ctx, error):
   if isinstance(error, commands.PrivateMessageOnly):
